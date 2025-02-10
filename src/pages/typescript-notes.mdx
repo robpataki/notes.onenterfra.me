@@ -1,0 +1,23 @@
+---
+layout: ../layouts/MarkdownLayout.astro
+title: TypeScript reminders
+---
+
+# TypeScript reminders
+
+## Snippets
+
+### Typed iterator key (instead of default "any" type)
+
+![](../assets/img/reminders-and-notes/ts_use-typed-iterator-key.webp)
+
+```js
+let key: keyof SimpleAddress;
+for (key in updatedAddress.current) {
+	console.log("Value: ", cachedAddress?.current?.[key]);
+}
+```
+
+## Resources
+
+**TypeScript CheatSheet:** https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets

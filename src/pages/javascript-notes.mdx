@@ -1,0 +1,41 @@
+---
+layout: ../layouts/MarkdownLayout.astro
+title: JavaScript reminders
+---
+
+# JavaScript reminders
+
+`{ ...knaawledge, 🏎️, 📚 }`
+
+## Clone arrays
+
+### Create a shallow copy of an array
+
+This technique only works with simple arrays, arrays containing objects need to be deep copied.
+
+```js
+const ARRAY = [1, 2, 3]
+const SHALLOW_COPIED_ARRAY = [...ARRAY]
+```
+
+### Creating a deep copy of an array
+
+`DEEP_COPIED_ARRAY[0].id = 5` will not effect `ARRAY[0].id` as it would with shallow copying.
+
+```js
+const ARRAY = [{ id: 1 }, { id: 2 }, { id: 3 }]
+const DEEP_COPIED_ARRAY = JSON.parse(JSON.stringify(ARRAY))
+```
+
+## Whitchcraft
+
+### Conditionally add value to object
+
+```js
+const className = step.id === 'importantText' ? 'is-bold' : undefined
+
+return {
+  id: step.id,
+  ...(className && { className }),
+}
+```
