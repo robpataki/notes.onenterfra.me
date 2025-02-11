@@ -1,0 +1,61 @@
+---
+layout: ../layouts/MarkdownLayout.astro
+title: XLD file naming guide
+---
+
+# XLD file naming guide
+
+[**XLD**](https://tmkk.undo.jp/xld/index_e.html) is a super cool open source audio converter. Unfortunately the file documentation is quite spotty around meta data so I created my own guide for XLD file naming.
+
+## Compilations
+
+```sh
+%A - %T  -  %n - %a - %t
+```
+
+**Examples:**
+
+- Various Artists - Underground Sound of Miami Series 1&nbsp; -&nbsp;06 - Maher Daniel & Casa (aka Mike Casa) - Music, Machines & Life.m4a
+- Various Artists - Soul: Original Motion Picture Soundtrack&nbsp; -&nbsp;02 - Born to Play Reprise.m4a
+- Various Artists - Judgement Night OST&nbsp; -&nbsp;04 - Biohazard & Onyx - Judgment Night.m4a
+
+## Albums by the same artist
+
+```sh
+%A - %T  -  %n - %t
+```
+
+**Examples:**
+
+- Nine Inch Nails - The Downward Spiral&nbsp; -&nbsp; 04 - March of the Pigs.m4a
+- Nujabes - Metaphorical Music&nbsp; -&nbsp; 09 - A Day by Atmosphere Supreme.m4a
+- G-Pal - Life&nbsp; -&nbsp; 03 - Aegan Sea.m4a
+
+## Meta data index
+
+```sh
+%n: Track number
+%N: Total tracks
+%d: Disc number
+%D: Total discs
+%t: Title
+%T: Album title
+%a: Artist
+%A: Album artist
+%g: Genre
+%G: Grouping
+%c: Composer
+%C: Comment
+%I: DiscID
+%y: Year
+%f: Format
+%i: ISRC
+%m: MSCN
+%o: Original file name
+```
+
+## Resources
+
+**XLD Meta data editor:** https://github.com/gmw/xld/blob/master/XLD/English.lproj/MetadataEditor.xib
+
+**Original Github gist:** https://gist.github.com/robpataki/511ddb6df55ebe089ba2

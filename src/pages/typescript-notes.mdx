@@ -18,6 +18,226 @@ for (key in updatedAddress.current) {
 }
 ```
 
+### "Disable" certain props from Props
+
+```js
+// Omit (optional) `id` from `BaseProps`, and make it a mandatory prop on `Props`
+export interface Props extends Omit<BaseProps, 'id'> {
+	id: string;
+}
+```
+
+### Use Template Literal Type
+
+```js
+type EasingFunction = 'easeInSine' | 'easeOutSine' | 'easeInOutSine';
+type EasingFunctionObjectType = {
+	[key in EasingFunction]: `${number}, ${number}, ${number}, ${number}`;
+}
+
+const EasingFunctions: EasingFunctionObjectType = {
+	easeInSine: '0.12, 0, 0.39, 0',
+	easeOutSine: '0.61, 1, 0.88, 1',
+	easeInOutSine: '0.37, 0, 0.63, 1',
+};
+```
+
+### Turn enum into a type
+
+```js
+enum ApplicationStatus {
+	APPROVED = 'approved',
+	COMPLETED = 'completed',
+};
+
+type ApplicationStatusType = `${ApplicationStatus}`; // 'approved' | 'completed'
+```
+
+### Turn const into immutable const (const assertion)
+
+```js
+const ApplicationStatus = {
+	APPROVED: 'approved',
+	COMPLETED: 'completed',
+} as const;
+```
+
+### Turn constant object keys into type
+
+```js
+const VIEW_STATES = {
+  NOT_COMPLETE: 'not-complete',
+  COMPLETE: 'complete',
+} as const;
+type View = keyof typeof VIEW_STATES; // 'NOT_COMPLETE' | 'COMPLETE'
+```
+
+### Create union type of all the HTML attributes of HTMLButtonElement
+
+```js
+type ButtonAttributes = React.HTMLAttributes<HTMLButtonElement>;
+```
+
+### Create union type from one dimensional array values
+
+```js
+const c = ['hello', 'wow'] as const;
+type C = typeof c[number] // 'hello' | 'wow'
+```
+
+### Record with optional (or empty) keys
+
+```js
+type EditUrlId = 'flights' | 'carRental' | 'travelInsurance';
+type EditUrlField = Partial<Record<EditUrlId, string>>;
+```
+
+### Turn constant object values into type
+
+```js
+const VIEW_STATES = {
+  NOT_COMPLETE: 'not-complete',
+  COMPLETE: 'complete',
+} as const;
+type View = typeof VIEW_STATES[keyof typeof VIEW_STATES]; // 'not-complete' | 'complete'
+```
+
+### Tuple type
+
+Type for an array with fixed number of elements
+
+```js
+type TPagination: [string, { pageSize: number; pageNumber: number }];
+
+const getPaginatedProducts = ({
+  queryKey,
+}: QueryFunctionContext<TPagination]>) => {
+	const [_key, { pageSize, pageNumber }] = queryKey;
+  ...
+}
+```
+
+### Strict typed arrays
+
+```js
+type FunnelJourneyGroupItem = {
+  fieldKey: string;
+  iconId: string;
+  url: string;
+};
+
+type GroupItems = [string, FunnelJourneyGroupItem];
+
+const groupItems: Array<GroupItems> = [
+  ['Flights', { fieldKey: 'PickFlightsText', iconId: 'flight-icon', url: '/buy/flights' }],
+  ['Family seats', { fieldKey: 'SeatSelectionText', iconId: 'seat-icon', url: '/buy/seats/familyseats' }],
+];
+```
+
+### Set the type of ref
+
+```js
+import { RefObject, useRef } from 'react';
+const ref: RefObject<HTMLInputElement> = useRef(null);
+```
+
+### Create a mutable ref
+
+```js
+import { MutableRefObject, useRef } from 'react';
+const ref: MutableRefObject<number> = useRef<number>(2);
+ref.current = 3;
+```
+
+## Typing Event handlers
+
+### Change event
+
+```js
+import { ChangeEvent } from 'react';
+onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
+```
+
+### Focus/Blur events
+
+```js
+import { FocusEvent } from 'react';
+onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
+onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+```
+
+### Keyboard events
+
+```js
+import { KeyboardEvent } from 'react';
+onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
+onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void;
+```
+
+### Handle clicking inside/outside an element
+
+```js
+import { useRef, useEffect } from 'react';
+
+const ref: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+useEffect(() => {
+  const handleClickOutside = ({ target }: MouseEvent) => {
+    if (ref.current) {
+      console.log('Clicked outside the element: ', !ref.current.contains(target as Node));
+    }
+  };
+
+  document.addEventListener('click', handleClickOutside, true);
+
+  return () => {
+    document.removeEventListener('click', handleClickOutside, true);
+  };
+}, []);
+```
+
+### Access state inside event handler
+
+```js
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.code === KEY_CODES.ESCAPE) {
+    if (windowWidth <= TABLET_WIDTH.MAX && isOpen) {
+      event.preventDefault();
+      setIsOpen(false);
+    }
+  }
+};
+
+useEffect(() => {
+  window.addEventListener('keydown', handleKeyDown);
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [handleKeyDown]); // !pass the event handler into the dep. array!
+```
+
+---
+
+### Controlled tabindex roving
+
+Actively hide or add focusable elements to the accessibility tree.
+
+```js
+contentDivRef?.current
+  ?.querySelectorAll('a, button, input')
+  .forEach((ctaEl: Element) => {
+    if (interactive) {
+      ctaEl.setAttribute('aria-hidden', !expanded ? 'true' : 'false');
+    } else {
+      ctaEl.removeAttribute('aria-hidden');
+    }
+    if (expanded) {
+      ctaEl.removeAttribute('tabindex');
+    } else {
+      ctaEl.setAttribute('tabindex', '-1');
+    }
+  });
+```
+
 ## Resources
 
 **TypeScript CheatSheet:** https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets

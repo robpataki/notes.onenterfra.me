@@ -18,14 +18,14 @@ git config -l --show-origin
 ### Change the author of a git commit
 
 ```sh
-git commit --amend --author="Rob Pataki <robert@robertpataki.com>" --no-edit
+git commit --amend --author="Your Name <your.name@email.com>" --no-edit
 ```
 
 ### Set Global Git user details
 
 ```sh
-git config --global user.name "My Name"
-git config --global user.email my@email.com
+git config --global user.name "Your Name"
+git config --global user.email your.name@email.com
 ```
 
 ## Rebasing
@@ -59,13 +59,14 @@ git tag v1.0
 ### Create & check out a new branch off a tag
 
 ```sh
-git checkout -b eip-hotfix/v2.272.0 tags/v2.272.0
+git checkout -b v1.0 tags/v1.0
 ```
 
 ### Delete tag
 
 ```sh
-git tag -d <tag_name>
+git tag -d v1.0
+git push origin :refs/tags/v1.0
 ```
 
 ## Tidy up
@@ -74,6 +75,12 @@ git tag -d <tag_name>
 
 ```sh
 git rm --cached -r package-lock.json; git add .; git status; git commit -m "Ignore unwanted files"
+```
+
+### Prune remote branches on local
+
+```sh
+git remote prune origin
 ```
 
 ### Garbage collection
@@ -129,6 +136,10 @@ git lfs ls-files --deleted
 **Common Git LFS errors and tricks:** https://www.yellowduck.be/posts/common-git-lfs-errors-and-tricks
 
 ## Singing commits
+
+Signing commits with Git [is a good thing](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification) as it shows other devs that your commits come from a trusted source.
+
+![A screenshot of a list of commits on Github showing the "verified" label](../assets/img/reminders-and-notes/git_verified-commits.webp)
 
 ### Install GPG CLI
 
