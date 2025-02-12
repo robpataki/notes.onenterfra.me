@@ -1,15 +1,32 @@
 ---
 import DefaultLayout from '../layouts/DefaultLayout.astro'
-import Hero from '../components/Hero.astro'
+/* import Hero from '../components/Hero.astro'
 import Feature from '../components/Feature.astro'
 import Counter from '../components/Counter.astro'
 import ContentMedia from '../components/ContentMedia.astro'
-import { Accordion, AccordionItem } from 'accessible-astro-components'
+import { Accordion, AccordionItem } from 'accessible-astro-components' */
+
+const allPosts = Object.values(import.meta.glob('./guides-and-reminders/**/*.{md,mdx}', { eager: true }))
 ---
 
 <DefaultLayout title="Home">
-  <Hero />
-  <section class="my-64">
+  <!--  <Hero /> -->
+  <section aria-label="section-1-heading" class="my-64">
+    <div class="container">
+      <h2 id="section-1-heading" class="mb-16 text-6xl">Guides and reminders</h2>
+      <ul>
+        {
+          allPosts.map((post: any) => (
+            <li>
+              <a href={post.url}>{post.frontmatter.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- <section class="my-64">
     <div class="container">
       <h2 class="mb-16 text-6xl">Features</h2>
       <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
@@ -128,5 +145,5 @@ import { Accordion, AccordionItem } from 'accessible-astro-components'
         <Counter count="18+" title="Months" sub="Since launch" />
       </div>
     </div>
-  </section>
+  </section> -->
 </DefaultLayout>
