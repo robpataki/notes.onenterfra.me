@@ -1,0 +1,149 @@
+---
+layout: '@layouts/FrontEndLayout.astro'
+title: Web font optimisation techniques
+pubDate: 2025-02-12
+description: 'My thoughts and notes on website font loading best practices, based on an article by DebugBear.'
+author: 'Rob Pataki'
+tags: ['front-end', 'post']
+---
+
+# Web font optimisation techniques
+
+I read [this excellent article](https://www.debugbear.com/blog/website-font-performance) about web font loading optimisation techniques and sensible defaults. This document contains my notes and some examples I lifted over so I can find them easier. I highly recommend the original article, it's a great read even if you've done web fonts before 😉.
+
+## Sensible defaults
+
+- When using web fonts, don’t use more than 2 (bad for performance)
+- Web-Safe Fonts (including system fonts) vs. Web Fonts
+- Web-safe fonts are better for performance, web fonts are better for custom typography and branding
+- Use Woff2 (use a woff2 [converter](https://cloudconvert.com/woff2-converter))
+- Only include the custom web font (styles) you REALLY need.
+- Only include the necessary glyphs (ie. remove Cyrillic if only Latin is used)
+- Self host your web fonts (Use CDN if possible)
+- If using web-fonts, use Google web fonts. The **woff2** returned by Google are super optimised (only the range of glyphs are returned that are used in the document) - how does this work with dynamic content? 🤔
+- **For best performance, inline the critical `@font-face` declaration WITH the `font-family` CSS rule in the `<head>`. (See [source](https://www.debugbear.com/blog/website-font-performance#inline-your-font-face-rules-in-the-head-section-of-your-page))**
+
+## CSS Font stacks
+
+> 🛠️ **Tool:** [https://www.cssfontstack.com](https://www.cssfontstack.com/)
+
+## System fonts
+
+```css
+/* System fonts defined for Mac, Linux and Windows */
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
+}
+
+/* Generic system font definition */
+body {
+  font-family: system-ui;
+}
+```
+
+## @font-face
+
+```css
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/anonymous-pro-v21-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: italic;
+  font-weight: 400;
+  src: url('../fonts/anonymous-pro-v21-latin-italic.woff2') format('woff2');
+}
+```
+
+The font loading is done by the browser, not CSS. The custom font only downloads if it’s used. For example if the regular version is used in the body but the italic one isn’t, the italic font variant will not be loaded by the browser.
+
+### `local` descriptor
+
+- Use `local()` as a best practice to prefer locally installed font files if available (Use [FontDrop!](https://fontdrop.info/) to find `fullName` and `postScriptName`)
+- Example
+
+```css
+@font-face {
+  font-family: 'Anonymous Pro';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local('Anonymous Pro Regular'),
+    /* Full name */ local('AnonymousPro-Regular'),
+    /* PostScript name */ url('/fonts/anonymous-pro-v21-latin-regular.woff2') format('woff2');
+}
+```
+
+### **`font-display` descriptor**
+
+Find the right balance between FOIT (Flash Of invisible Text), FOUT (Flash Of Un-styled Text) and CLS (Cumulative Layout Shift) using one of the 4 `font-display` strategies.
+
+- **block:** Waits for the custom font to load and renders the text using custom font. Causes FOIT and layout shift. 3s blocking time , “Infinite” swapping time.
+- **swap:** The text renders using the fallback font, then swapped to the custom font as soon as it’s available. Causes FOIT and layout shift. 100ms blocking time, “Infinite” swapping time.
+- **optional:** The text is rendered as early as possible - either using the custom or the fallback font. 100ms blocking time, 0s swapping time.
+- **fallback:** Uses the fallback font and allows the custom font 3 seconds to load. Causes FOUT and layout shift (Blocking 100 ms and swaps around 3s).
+- **auto:** Uses the browser’s default font-display strategy (usually same as `block`).
+
+### `size-adjust` descriptor
+
+Use the `size-adjust` descriptor to reduce the layout shift caused by the size difference between the custom and the fallback font.
+
+> 🛠️ **Tool:** https://screenspan.net/fallback
+
+> There are some tweak props to fine tune size adjustments ([\*\*`ascent-override`](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/ascent-override), [`descent-override`](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/descent-override)** , [**`line-gap-override`\*\*](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/line-gap-override) ), but they are not yet supported by Safari yet.
+
+## Performance tips
+
+The following techniques enhance performance by getting the browser to load the fonts faster.
+
+> Remember to not over do it - only use these techniques for critical font resources, otherwise they will take priority over other more important resources on the page.
+
+### Inline critical font styles
+
+```html
+<style>
+  @font-face {
+    font-display: optional;
+    font-family: 'Anonymous Pro';
+    font-style: normal;
+    font-weight: 400;
+    size-adjust: 113%;
+    src:
+      local('Anonymous Pro Regular'),
+      local('AnonymousPro-Regular'),
+      url(/fonts/anonymous-pro-v21-latin-regular.woff2) format('woff2');
+  }
+
+  body {
+    font-family: 'Anonymous Pro', 'Courier New', monospace;
+  }
+</style>
+```
+
+### Pre-connect (when not self hosting)
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+```
+
+### Pre-load (when not self hosting)
+
+```html
+<link
+  rel="preload"
+  href="https://fonts.gstatic.com/s/anonymouspro/v21/rP2Bp2a15UIB7Un-bOeISG3pHls29Q.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+```
+
+## Resources
+
+**Website font performance:** https://www.debugbear.com/blog/website-font-performance

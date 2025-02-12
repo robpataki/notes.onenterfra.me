@@ -5,7 +5,10 @@
       "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@pages/*": ["src/pages/*"]
+      "@pages/*": ["src/pages/*"],
+      "@a11y/*": ["src/pages/a11y/*"],
+      "@front-end/*": ["src/pages/front-end/*"],
+      "@tech-notes/*": ["src/pages/tech-notes/*"]
     }
   }
 }
