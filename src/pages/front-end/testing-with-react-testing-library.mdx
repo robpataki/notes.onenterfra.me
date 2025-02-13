@@ -34,7 +34,7 @@ const letterStatusBannerRegion: HTMLElement = screen.getByRole('region', {
 });
 
 expect(letterStatusBannerRegion).toBeInTheDocument();
-expect(within(letterStatusBannerRegion).getByText(/by rob\.pataki@valtech\.com \./i)).toBeInTheDocument();
+expect(within(letterStatusBannerRegion).getByText(/by your\.name@email\.com \./i)).toBeInTheDocument();
 expect(within(letterStatusBannerRegion).getByText(/at 10:18 on 31 jan 2023./i)).toBeInTheDocument();
 ```
 
