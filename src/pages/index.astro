@@ -1,5 +1,6 @@
 ---
 import DefaultLayout from '../layouts/DefaultLayout.astro'
+import ArticleList from '@components/ArticleList/ArticleList.astro'
 
 const techNotes = Object.values(import.meta.glob('@tech-notes/**/*.{md,mdx}', { eager: true }))
 const a11yArticles = Object.values(import.meta.glob('@a11y/**/*.{md,mdx}', { eager: true }))
@@ -10,45 +11,21 @@ const feArticles = Object.values(import.meta.glob('@front-end/**/*.{md,mdx}', { 
   <section aria-label="section-tech-notes-heading" class="my-64">
     <div class="container">
       <h2 id="section-tech-notes-heading" class="mb-16 text-6xl">Tech notes</h2>
-      <ul>
-        {
-          techNotes.map((post: any) => (
-            <li>
-              <a href={post.url}>{post.frontmatter.title}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <ArticleList articles={techNotes} />
     </div>
   </section>
 
   <section aria-label="section-a11y-heading" class="my-64">
     <div class="container">
       <h2 id="section-a11y-heading" class="mb-16 text-6xl">Accessibility (a11y)</h2>
-      <ul>
-        {
-          a11yArticles.map((post: any) => (
-            <li>
-              <a href={post.url}>{post.frontmatter.title}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <ArticleList articles={a11yArticles} />
     </div>
   </section>
 
   <section aria-label="section-front-end-heading" class="my-64">
     <div class="container">
       <h2 id="section-front-end-heading" class="mb-16 text-6xl">Front-end</h2>
-      <ul>
-        {
-          feArticles.map((post: any) => (
-            <li>
-              <a href={post.url}>{post.frontmatter.title}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <ArticleList articles={feArticles} />
     </div>
   </section>
 </DefaultLayout>

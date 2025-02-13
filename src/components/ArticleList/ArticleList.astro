@@ -1,0 +1,56 @@
+---
+const { articles } = Astro.props
+---
+
+<style lang="scss">
+  .article-list {
+    list-style-type: none;
+    counter-reset: li;
+
+    li {
+      border-bottom: 1px dashed var(--action-color);
+      position: relative;
+      vertical-align: top;
+      display: flex;
+      align-items: center;
+      font-size: 200%;
+      font-weight: 700;
+
+      &::before,
+      &:after {
+        font-size: 300%;
+        font-weight: 700;
+        line-height: 2;
+      }
+
+      &::before {
+        counter-increment: li;
+        content: counter(li, decimal-leading-zero);
+        margin-right: 5rem;
+        color: var(--action-color);
+      }
+
+      &::after {
+        content: '/';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 6rem;
+        font-size: 600%;
+        font-weight: 400;
+        line-height: 1;
+        opacity: 0.05;
+      }
+    }
+  }
+</style>
+
+<ol class="article-list">
+  {
+    articles.map((post: any) => (
+      <li>
+        <a href={post.url}>{post.frontmatter.title}</a>
+      </li>
+    ))
+  }
+</ol>

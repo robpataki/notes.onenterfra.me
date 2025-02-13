@@ -1,0 +1,140 @@
+---
+layout: '@layouts/AccessibilityLayout.astro'
+title: Accessibility checklist
+pubDate: 2025-02-12
+description: 'This is my accessibility checklist I use for testing websites.'
+author: 'Rob Pataki'
+tags: ['tech-note', 'post']
+---
+
+# Accessibility checklist
+
+This is the accessibility checklist I use when I'm testing websites.
+
+## Basic web document
+
+**Testing method:** Automated (axe-core)
+
+- The document title is meaningful, clear and provides context
+- The document's language is correctly set (`<html lang="de-DE">`)
+- All elements in the document are wrapped in a semantic regions (`main`, `header`, `footer`)
+- The HTML code is valid (HTML5)
+
+## Semantics
+
+**Testing method:** Manual with screen reader
+
+**Semantic elements are used to structure content in the document:**
+
+- Lists use `<ul>` or `<ol>`
+- Description lists use `<dl>`
+- Tabulated data uses `<table>`.
+- Tables have captions (either visual or non-visual) and column headers (either visual or non-visual)
+- Short text uses `<span>`, paragraphs of text uses `<p>`
+- Do not use `<b>` for bold text (use CSS to style bold text)
+- Only user generated HTML content uses `<strong>` text
+- No empty tags (`<p></p>` or `<a href="my-link"></a>)
+
+## Headings
+
+**Testing method:** Automated (axe-core) and manual with screen reader
+
+- There is one single H1 in the document
+- No heading level is skipped (H3 follows H2, H2 follows H1)
+- The heading hierarchy is consistent and incremental (H3 follows H2, H2 follows H1)
+- Headings are not focusable by keyboard
+- There are no empty headings in the document
+- If text looks like a heading it uses a semantic heading element
+
+## Images
+
+**Testing method:** Manual with screen reader
+
+- Decorative images (icons for example) are hidden (`aria-hidden="true"`, `alt=""`) from screen readers
+- Non-decorative images have alt text that explain the contents of the image accurately
+
+## Forms
+
+**Testing method:** Automated (axe-core) and manual with keyboard and screen reader
+
+- Every form element has an accessible name - either visual or non-visual (label or aria-label)
+- Form errors are easy to identify and are clear in providing context (check out https://design-system.service.gov.uk/components/error-summary)
+
+## Interactive elements
+
+**Testing method:** Automated (axe-core) and manual with keyboard and screen reader
+
+- Buttons use labels (visual or non-visual) that identifies their purpose
+- Buttons are activated by the ENTER or SPACE keys or by double tapping on mobile with screen reader
+- Links use labels (visual or non-visual) that identifies their purpose
+- Buttons are activated by the ENTER key or by double tapping on mobile with screen reader
+- Repeat buttons with the same visual label clearly read out their purpose (for example, "Change first name", "Change last name" instead of "Change", "Change")
+- Interactive patterns (for example "Accorion", "Tab", "Carousel", "Modal", "Breadcrumb") follow the [WAI ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/)
+
+## Keyboard navigation
+
+**Testing method:** Automated (axe-core) and manual with keyboard and screen reader
+
+- If something works with a mouse, it must work with a keyboard
+- There are no focus traps in the document (other than the intentional modals)
+- Modals implement a focus trap (page becomes inert)
+- Skip link for the main content is provided as the first focusable element in the document, and it links to the `<main>` element on the page
+- The user can access every focusable element (button, link, tab, form element) in the document
+- Non-focusable elements cannot be focussed on using the keyboard (svgs heading or lists are not focusable)
+- Focus order matches reading order
+- Focusable elements (buttons, links, tabs, form inputs) must have visible focus styles
+- Focusable elements outside the viewport are not focusable by keyboard
+
+- Scrollable content must be operable with UP/DOWN arrow keys
+- When a modal is closed, the keyboard focus is set on the element that triggered the modal, or the closest heading element in case the trigger doesn't exist anymore
+
+## Colour contrast
+
+**Testing method:** Automated (axe-core)
+
+- Normal text meets the minimum colour contrast ratio of 4.5:1
+- Large text meets the minimum colour contrast ratio of 3:1 for large text (18.66px+ and bold, or 24px+ and regular)
+- Graphics and UI components have a border that meets the minimum colour contrast ratio of 3:1 (eg. form input borders)
+
+## Content
+
+**Testing method:** Manual with mouse, keyboard and screen reader
+
+- Content is responsive and works on all types of devices (mobile, tablet, desktop)
+- Content zooms up to 200%
+- Content is readable and operable in all device orientations
+- Content is readable and operable in high contrast mode
+- Abbreviations non-visually read correctly - for example "pp" reads "per person"
+- Special characters such as "|" or ">" are hidden from screen readers
+- Are user preferences respected - for example if user prefers reduced motion they should not see large areas of the screen being animated
+- Live ARIA announcements are used sparingly and are clear to understand (for example "Outbound flight added to your basket")
+
+## Timed content
+
+**Testing method:** Manual with mouse, keyboard and screen reader
+
+- User understands that their session is timed
+- User is warned before their session expired (min. 30 seconds)
+- User can extend their session
+
+## Single Page Applications
+
+**Testing method:** Manual with mouse, keyboard and screen reader
+
+- Document titles are announced by the screen reader on route updates
+- On route update the keyboard focus is set on top of the page (hitting tab should activate the first "Skip link")
+- **Active focus management -** let users know when the DOM changes - for instance removing an element from the screen should set the keyboard focus on the closest heading, or an element with message that tells the user about the success of deletion
+
+## Resources
+
+- **WAI ARIA Authoring Practices Guide:** https://www.w3.org/WAI/ARIA/apg/patterns
+- **WCAG specs:** https://www.w3.org/TR/WCAG21
+- **Deque web accessibility checklist:** https://dequeuniversity.com/checklists/web
+- **Semantic HTML cheat sheet:** https://webaim.org/resources/htmlcheatsheet
+- **Using ARIA: Roles, states and properties:** https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques
+
+## Testing tools
+
+- **Axe DevTools:** ([Chromium extension](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd), [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/axe-devtools))
+- **Accessibility Tree in Chromium:** https://developer.chrome.com/blog/full-accessibility-tree
+- **Storybook accessibility plugin:** https://storybook.js.org/addons/@storybook/addon-a11y

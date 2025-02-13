@@ -1,21 +1,14 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro'
-const allPosts = Object.values(import.meta.glob('@accessibility/**/*.{md,mdx}', { eager: true }))
+import ArticleList from '@components/ArticleList/ArticleList.astro'
+const allPosts = Object.values(import.meta.glob('@a11y/**/*.{md,mdx}', { eager: true }))
 ---
 
 <DefaultLayout title="Home">
   <section aria-label="section-1-heading" class="my-64">
     <div class="container">
       <h1 id="section-1-heading" class="mb-16 text-6xl">Accessibility</h1>
-      <ul>
-        {
-          allPosts.map((post: any) => (
-            <li>
-              <a href={post.url}>{post.frontmatter.title}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <ArticleList articles={allPosts} />
     </div>
   </section>
 </DefaultLayout>
