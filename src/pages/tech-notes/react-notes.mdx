@@ -1,0 +1,72 @@
+---
+layout: '@layouts/TechNoteLayout.astro'
+title: React reminders
+pubDate: 2025-02-12
+description: 'My React reminders.'
+author: 'Rob Pataki'
+tags: ['tech-note', 'post']
+---
+
+# React reminders
+
+### Handle clicking inside/outside an element
+
+```js
+import { useRef, useEffect } from 'react';
+
+const ref: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+useEffect(() => {
+  const handleClickOutside = ({ target }: MouseEvent) => {
+    if (ref.current) {
+      console.log('Clicked outside the element: ', !ref.current.contains(target as Node));
+    }
+  };
+
+  document.addEventListener('click', handleClickOutside, true);
+
+  return () => {
+    document.removeEventListener('click', handleClickOutside, true);
+  };
+}, []);
+```
+
+### Access state inside event handler
+
+```js
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.code === KEY_CODES.ESCAPE) {
+    if (windowWidth <= TABLET_WIDTH.MAX && isOpen) {
+      event.preventDefault();
+      setIsOpen(false);
+    }
+  }
+};
+
+useEffect(() => {
+  window.addEventListener('keydown', handleKeyDown);
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [handleKeyDown]); // !pass the event handler into the dep. array!
+```
+
+### Controlled tabindex roving
+
+Actively hide or add focusable elements to the accessibility tree.
+
+```js
+contentDivRef?.current
+  ?.querySelectorAll('a, button, input')
+  .forEach((ctaEl: Element) => {
+    if (interactive) {
+      ctaEl.setAttribute('aria-hidden', !expanded ? 'true' : 'false');
+    } else {
+      ctaEl.removeAttribute('aria-hidden');
+    }
+    if (expanded) {
+      ctaEl.removeAttribute('tabindex');
+    } else {
+      ctaEl.setAttribute('tabindex', '-1');
+    }
+  });
+```

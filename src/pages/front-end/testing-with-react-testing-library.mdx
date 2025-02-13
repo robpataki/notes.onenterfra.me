@@ -19,14 +19,14 @@ tags: ['front-end', 'post']
 - Components nested within other components are passed the `testID`, so they can generate their own internal `testID`s (e.g.: 'hero' ⇒ 'hero-image')
 - Minimise the reliance on `data-testid`, (but component should support `data-testid`, so QA testers can use them with e2e tests such as [Playwright](https://playwright.dev/))
 
-IMAGE
+![The Testing Playground Chrome extension providing an accessible element selector by the user clicking the element in the browser](@assets/img/posts/front-end/testing-with-react-testing-library-02.webp)
 The Testing Playground Chrome extension providing an accessible element selector by the user clicking the element in the browser
 
 ## Testing recipes
 
 ### Recipe #1 - Use `getByRole` and `within`
 
-IMAGE
+![A Status banner component used to let users know when their requested action was executed successfully](@assets/img/posts/front-end/testing-with-react-testing-library-01.webp)
 
 ```js
 const letterStatusBannerRegion: HTMLElement = screen.getByRole('region', {

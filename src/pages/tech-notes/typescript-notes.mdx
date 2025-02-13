@@ -13,7 +13,7 @@ tags: ['tech-note', 'post']
 
 ### Typed iterator key (instead of default "any" type)
 
-![](@assets/img/reminders-and-notes/ts_use-typed-iterator-key.webp)
+![TypeScript throws a warning when we try to use a string to look up values in an array](@assets/img/posts/tech-notes/typescript-notes_use-typed-iterator-key.webp)
 
 ```js
 let key: keyof SimpleAddress;
@@ -153,7 +153,7 @@ const ref: MutableRefObject<number> = useRef<number>(2);
 ref.current = 3;
 ```
 
-## Typing Event handlers
+## Typing Event handlers (with React)
 
 ### Change event
 
@@ -178,70 +178,6 @@ onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 onKeyUp?: (event: KeyboardEvent<HTMLInputElement>) => void;
 ```
 
-### Handle clicking inside/outside an element
-
-```js
-import { useRef, useEffect } from 'react';
-
-const ref: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-useEffect(() => {
-  const handleClickOutside = ({ target }: MouseEvent) => {
-    if (ref.current) {
-      console.log('Clicked outside the element: ', !ref.current.contains(target as Node));
-    }
-  };
-
-  document.addEventListener('click', handleClickOutside, true);
-
-  return () => {
-    document.removeEventListener('click', handleClickOutside, true);
-  };
-}, []);
-```
-
-### Access state inside event handler
-
-```js
-const handleKeyDown = (event: KeyboardEvent) => {
-  if (event.code === KEY_CODES.ESCAPE) {
-    if (windowWidth <= TABLET_WIDTH.MAX && isOpen) {
-      event.preventDefault();
-      setIsOpen(false);
-    }
-  }
-};
-
-useEffect(() => {
-  window.addEventListener('keydown', handleKeyDown);
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-  };
-}, [handleKeyDown]); // !pass the event handler into the dep. array!
-```
-
----
-
-### Controlled tabindex roving
-
-Actively hide or add focusable elements to the accessibility tree.
-
-```js
-contentDivRef?.current
-  ?.querySelectorAll('a, button, input')
-  .forEach((ctaEl: Element) => {
-    if (interactive) {
-      ctaEl.setAttribute('aria-hidden', !expanded ? 'true' : 'false');
-    } else {
-      ctaEl.removeAttribute('aria-hidden');
-    }
-    if (expanded) {
-      ctaEl.removeAttribute('tabindex');
-    } else {
-      ctaEl.setAttribute('tabindex', '-1');
-    }
-  });
-```
-
 ## Resources
 
-**TypeScript CheatSheet:** https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets
+- **TypeScript CheatSheet:** https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets
