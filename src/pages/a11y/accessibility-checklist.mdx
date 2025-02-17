@@ -11,29 +11,34 @@ tags: ['accessibility', 'post']
 
 This is the accessibility checklist I use when I'm testing websites.
 
+The goal is to meet WCAG 2.2 AA compliance as a minimum wherever possible but we should be aiming for good UX for all users.
+
 ## Basic web document
 
 **Testing method:** Automated (axe-core)
 
 - The document title is meaningful, clear and provides context
-- The document's language is correctly set (`<html lang="de-DE">`)
+- The document's language is correctly set (`<html lang="de">`)
 - All elements in the document are wrapped in a semantic regions (`main`, `header`, `footer`)
 - The HTML code is valid (HTML5)
+- Every `id` in the document is unique (no duplicates)
+- `user-scalable="no"` is not used in the `<meta name="viewport">` element and the `maximum-scale` attribute is not less than 5
 
 ## Semantics
 
-**Testing method:** Manual with screen reader
+**Testing method:** Automated (axe-core) and manual with screen reader
 
 **Semantic elements are used to structure content in the document:**
 
-- Lists use `<ul>` or `<ol>`
-- Description lists use `<dl>`
-- Tabulated data uses `<table>`.
-- Tables have captions (either visual or non-visual) and column headers (either visual or non-visual)
-- Short text uses `<span>`, paragraphs of text uses `<p>`
+- If text looks like a heading, the heading element should be used
+- Short text uses `<span>`, paragraphs of text use `<p>`
 - Do not use `<b>` for bold text (use CSS to style bold text)
 - Only user generated HTML content uses `<strong>` text
-- No empty tags (`<p></p>` or `<a href="my-link"></a>)
+- No empty tags (`<p></p>` or `<a href="my-link"></a>`)
+- Lists use `<ul>` or `<ol>` and they only contain `<li>` elements
+- Description lists use `<dl>` and their children are valid (`<dt>` and `<dd>` wrapped in `div` if needed for styling)
+- Tabulated data uses `<table>`
+- Tables have captions (either visual or non-visual) and column headers (either visual or non-visual)
 
 ## Headings
 
@@ -64,6 +69,7 @@ This is the accessibility checklist I use when I'm testing websites.
 
 **Testing method:** Automated (axe-core) and manual with keyboard and screen reader
 
+- No element has a [tabindex] value greater than 0
 - Buttons use labels (visual or non-visual) that identifies their purpose
 - Buttons are activated by the ENTER or SPACE keys or by double tapping on mobile with screen reader
 - Links use labels (visual or non-visual) that identifies their purpose
@@ -100,6 +106,7 @@ This is the accessibility checklist I use when I'm testing websites.
 
 **Testing method:** Manual with mouse, keyboard and screen reader
 
+- Text nodes are not split when read out by screen reader (`role=”text”` attribute used on parent node to concatenate multiple blocks of text if needed)
 - Content is responsive and works on all types of devices (mobile, tablet, desktop)
 - Content zooms up to 200%
 - Content is readable and operable in all device orientations
@@ -107,6 +114,8 @@ This is the accessibility checklist I use when I'm testing websites.
 - Abbreviations non-visually read correctly - for example "pp" reads "per person"
 - Special characters such as "|" or ">" are hidden from screen readers
 - Are user preferences respected - for example if user prefers reduced motion they should not see large areas of the screen being animated
+- ARIA labels are only used on focusable elements and their content complements the visual label and the action associated with the element
+- Lists have an ARIA label to provide context to users (the only exception to the previous rule)
 - Live ARIA announcements are used sparingly and are clear to understand (for example "Outbound flight added to your basket")
 
 ## Timed content
