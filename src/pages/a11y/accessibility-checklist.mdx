@@ -20,6 +20,7 @@ The goal is to meet WCAG 2.2 AA compliance as a minimum wherever possible but we
 - The document title is meaningful, clear and provides context
 - The document's language is correctly set (`<html lang="de">`)
 - All elements in the document are wrapped in a semantic regions (`main`, `header`, `footer`)
+- The regions of the page are easily recognisable (by headings and/or accessible names)
 - The HTML code is valid (HTML5)
 - Every `id` in the document is unique (no duplicates)
 - `user-scalable="no"` is not used in the `<meta name="viewport">` element and the `maximum-scale` attribute is not less than 5
@@ -69,7 +70,6 @@ The goal is to meet WCAG 2.2 AA compliance as a minimum wherever possible but we
 
 **Testing method:** Automated (axe-core) and manual with keyboard and screen reader
 
-- No element has a [tabindex] value greater than 0
 - Buttons use labels (visual or non-visual) that identifies their purpose
 - Buttons are activated by the ENTER or SPACE keys or by double tapping on mobile with screen reader
 - Links use labels (visual or non-visual) that identifies their purpose
@@ -82,6 +82,7 @@ The goal is to meet WCAG 2.2 AA compliance as a minimum wherever possible but we
 **Testing method:** Automated (axe-core) and manual with keyboard and screen reader
 
 - If something works with a mouse, it must work with a keyboard
+- No element has a `tabindex` value greater than 0
 - There are no focus traps in the document (other than the intentional modals)
 - Modals implement a focus trap (page becomes inert)
 - Skip link for the main content is provided as the first focusable element in the document, and it links to the `<main>` element on the page
@@ -90,7 +91,6 @@ The goal is to meet WCAG 2.2 AA compliance as a minimum wherever possible but we
 - Focus order matches reading order
 - Focusable elements (buttons, links, tabs, form inputs) must have visible focus styles
 - Focusable elements outside the viewport are not focusable by keyboard
-
 - Scrollable content must be operable with UP/DOWN arrow keys
 - When a modal is closed, the keyboard focus is set on the element that triggered the modal, or the closest heading element in case the trigger doesn't exist anymore
 
@@ -106,6 +106,7 @@ The goal is to meet WCAG 2.2 AA compliance as a minimum wherever possible but we
 
 **Testing method:** Manual with mouse, keyboard and screen reader
 
+- Each supported language shows content in selected language
 - Text nodes are not split when read out by screen reader (`role=”text”` attribute used on parent node to concatenate multiple blocks of text if needed)
 - Content is responsive and works on all types of devices (mobile, tablet, desktop)
 - Content zooms up to 200%
