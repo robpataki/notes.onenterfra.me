@@ -109,6 +109,12 @@ git checkout -
 git checkout -b my-new-branch a7df14c7e1ebabe05015d7e462b9230e859cdbac
 ```
 
+### Summarise changes between feature branch (latest commit) and main (HEAD)
+
+```sh
+git diff --name-status origin/main...HEAD | cut -f1 | sort | uniq -c
+```
+
 ## Life saver
 
 ### Raise a branch from the dead
