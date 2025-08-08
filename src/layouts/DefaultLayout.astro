@@ -40,10 +40,14 @@ const {
         --font-measure: 70ch;
         --font-family-default: 'Open Sans', sans-serif;
         --font-family-special: 'Open Sans', sans-serif;
+        --font-family-code:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
         // light theme
         --font-color: var(--neutral-900);
         --action-color: var(--primary-300);
         --action-color-state: var(--primary-500);
+        --code-color: #1a1b26;
+        --code-background: #f4f4f4;
         --background: var(--neutral-100);
         --primary-background: var(--primary-100);
         --neutral-background: var(--neutral-200);
@@ -52,8 +56,12 @@ const {
       // dark color scheme overrides
       .darkmode {
         --font-color: var(--neutral-100);
-        --action-color: var(--secondary-100);
-        --action-color-state: var(--secondary-500);
+        /* --action-color: var(--secondary-100);
+        --action-color-state: var(--secondary-500); */
+        --action-color: var(--tertiary-100);
+        --action-color-state: var(--tertiary-100);
+        --code-color: #bb9af7;
+        --code-background: #1a1b26;
         --background: var(--dark-100);
         --primary-background: var(--primary-500);
         --neutral-background: var(--neutral-900);
