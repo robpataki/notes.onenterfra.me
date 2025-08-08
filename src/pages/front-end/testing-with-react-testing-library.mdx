@@ -12,12 +12,21 @@ tags: ['front-end', 'post']
 ## Testing approach
 
 - Use `screen.logTestingPlaygroundURL()` for the most semantic and accessible selectors in your tests
-- Use `screen.getByRole`, `screen.getByText` (don't rely on `id`s, `className`, semantic element selectors or `data-testid`)
+- Use `screen.getByRole` or `screen.getByText` primarily for querying elements
+- Use `data-testid` for querying elements only if getByRole or getByText is not sufficient (e.g. dynamic language changes the label of elements)
+- Don't use `id`s or `className` to find elements
+- Understand the difference between getBy (sync), findBy (async) and queryBy (conditional) element queries
 - Test if component renders with required props
 - Test if component renders with custom props
+- Test component listening to callbacks from child
+- Mock what you can
+- Stick to testing boundaries
 - UI components should have an optional `testID` prop, which renders a `data-testid` with the appropriate value on the component's wrapper element
 - Components nested within other components are passed the `testID`, so they can generate their own internal `testID`s (e.g.: 'hero' ⇒ 'hero-image')
 - Minimise the reliance on `data-testid`, (but component should support `data-testid`, so QA testers can use them with e2e tests such as [Playwright](https://playwright.dev/))
+- Test component states (open modal, close modal)
+- Use `userEvent`, don't use `fireEvent` to fire user events
+- [Avoid common mistakes](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library#having-multiple-assertions-in-a-single-waitfor-callback) with React Testing Library
 
 ![The Testing Playground Chrome extension providing an accessible element selector by the user clicking the element in the browser](@assets/img/posts/front-end/testing-with-react-testing-library-02.webp)
 The Testing Playground Chrome extension providing an accessible element selector by the user clicking the element in the browser
