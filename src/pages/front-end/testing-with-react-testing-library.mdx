@@ -1,21 +1,22 @@
 ---
 layout: '@layouts/FrontEndLayout.astro'
-title: Testing with React Testing Library
+title: Some good practices in component testing (using React Testing Library)
 pubDate: 2025-02-12
-description: 'My thoughts and notes on testing approaches and sensible practices using ReactTesting Library.'
+description: 'My thoughts and notes on component testing approaches and sensible practices using React Testing Library.'
 author: 'Rob Pataki'
 tags: ['front-end', 'post']
 ---
 
-# Testing with React Testing Library
+# Some good practices in component testing (using React Testing Library)
 
 ## Testing approach
 
+- Use React Testing Library, it's awesome!
 - Use `screen.logTestingPlaygroundURL()` for the most semantic and accessible selectors in your tests
 - Use `screen.getByRole` or `screen.getByText` primarily for querying elements
 - Use `data-testid` for querying elements only if getByRole or getByText is not sufficient (e.g. dynamic language changes the label of elements)
 - Don't use `id`s or `className` to find elements
-- Understand the difference between getBy (sync), findBy (async) and queryBy (conditional) element queries
+- Understand the difference between **getBy** (sync), **findBy** (async) and **queryBy** (conditional) element queries
 - Test if component renders with required props
 - Test if component renders with custom props
 - Test component listening to callbacks from child
