@@ -99,7 +99,33 @@ What a pain... But worry not just follow these steps:
   git push -u origin my-branch
 ```
 
-Enjoy!
+### 7. Merge your changes into main
+
+### 8. Pull changes
+
+You either need to pull changes into feature branches or update your local `main` branch or both...
+
+```sh
+  git pull origin main
+```
+
+### 9. Tell Git LFS it's all fine
+
+**Git LFS** will still freak out about the new file showing but instead of trying to track it we need to reset **Git** - for that we need to disable Git LFS temporarily:
+
+```sh
+  git lfs uninstall && git reset --hard HEAD
+```
+
+### 10. Reinstate Git LFS
+
+The final but very important step is to re-activate **Git LFS** (you definitely don't want to deal with this problem again):
+
+```sh
+  git lfs install && git lfs pull
+```
+
+Easy peasy. Enjoy!
 
 ### Resources
 
