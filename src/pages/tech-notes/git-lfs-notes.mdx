@@ -1,0 +1,100 @@
+---
+layout: '@layouts/TechNoteLayout.astro'
+title: Git LFS notes
+pubDate: 2025-08-14
+description: 'My Git LFS reminders.'
+author: 'Rob Pataki'
+tags: ['tech-note', 'post']
+---
+
+# Git LFS notes
+
+[**Git LFS**](https://git-lfs.com/) (Large File Storage) is a great tool that stores binary files as pointers instead of actual files to save on storage and bandwith in your Git repos.
+
+When you stage and commit a file with **Git LFS** installed and marked for tracking, **Git LFS** picks up the file and starts tracking it. When **Git LFS** is not installed obviously **Git** will do the tracking automatically. The problem arises when these 2 titans clash and that is a painful thing to deal with. This can happen simply by one person not installing Git LFS on their local environment and the 💩🌪️ happens.
+
+I feel there is one golden rule every team should follow the moment they decide to use **Git LFS** : Devs must have Git LFS installed as soon as they get access to the repo. Based on my experience on large projects (monorepo with 4-5 teams and 30+ devs) it is enough for one person to accidentally track a file with **Git** which would normally be tracked by **LFS** and the whole team will suffer until someone sorts the mess out.
+
+| If you're looking for some useful **git** commands for everyday dev work [check out my Git notes](/tech-notes/git-notes).
+
+If you're here I assume you're dealing with some Git LFS pain and I hope my notes will help you.
+
+## Basic Git LFS commands (normal operation, no drama)
+
+Use these commands for standard operation with Git LFS.
+
+### Install Gif LFS and pull the remote LFS pointers
+
+```sh
+git lfs install && git lfs pull
+```
+
+### Remove Git LFS and reset local branch
+
+```sh
+git lfs uninstall && git reset --hard HEAD
+```
+
+### List tracked files
+
+```sh
+git lfs ls-files
+```
+
+### List deleted files
+
+```sh
+git lfs ls-files --deleted
+```
+
+## Git LFS - Move already tracked files from _git_ to _LFS_ (such drama)
+
+When **Git** ends up tracking a file that usually would be tracked by **Git LGS** devs will see files popping up out of nowhere, and they will soon find other strange things happening, such as:
+
+- Random files appear out of nowhere and `git reset --hard HEAD` doesn't remove them
+- **Git LFS** starts nagging about the untracked files
+- No **Git LFS** command (uninstall, pull, migrate, import) helps
+
+What a pain... But worry not just follow these steps:
+
+### 1. Remove the file from Git
+
+```sh
+  git rm --cached my-file.png
+```
+
+### 2. Track file (let LFS catch it)
+
+```sh
+  git add my-file.png
+```
+
+### 3. Commit the changes
+
+```sh
+  git commit -m "Add file to LFS"
+```
+
+### 4. Verify my-file is bein tracked as a pointer by Git LFS
+
+```sh
+  git lfs ls-files
+```
+
+### 5. Push the new LFS pointers to remote
+
+```sh
+  git lfs push origin my-branch
+```
+
+### 6. Push your branch
+
+```sh
+  git push -u origin my-branch
+```
+
+Enjoy!
+
+### Resources
+
+- **Common Git LFS errors and tricks:** https://www.yellowduck.be/posts/common-git-lfs-errors-and-tricks
