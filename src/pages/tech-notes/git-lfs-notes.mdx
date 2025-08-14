@@ -31,7 +31,7 @@ git lfs install && git lfs pull
 
 ### Remove Git LFS and reset local branch
 
-I find these 2 commands super useful when **Git LFS** finds untracked files that need removing from **Git**:
+I find the following command super useful when **Git LFS** finds untracked files that need removing from **Git** (uninstalling **Git LFS** allows us to reset the branch).
 
 ```sh
 git lfs uninstall && git reset --hard HEAD
@@ -39,11 +39,15 @@ git lfs uninstall && git reset --hard HEAD
 
 ### List tracked files
 
+Use this to verify which files are tracked by **Git LFS**:
+
 ```sh
 git lfs ls-files
 ```
 
 ### List deleted files
+
+This one allows us to see files that were tracked by **Gif LFS** even if they were deleted at some point:
 
 ```sh
 git lfs ls-files --deleted
